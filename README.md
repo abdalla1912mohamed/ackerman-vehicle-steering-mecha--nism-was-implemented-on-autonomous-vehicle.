@@ -1,0 +1,2 @@
+# ackerman-vehicle-steering-mecha--nism-was-implemented-on-autonomous-vehicle.
+an ackerman vehicle steering mecha- nism was implemented on autonomous vehicle. Simulation using  ROS Melodic and Gazebo was carried out to develop multiple nodes for speed and lateral control of the vehicle, and also for the localization problem using Kalman Filter to clear the noise. The Hardware was implemented using ROS enabled Raspberry Pi 4 and 2 Arduinos for Measurement and Control Purpose. Gyroscope and Optical Encoders were used as the sensory elements.
