@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+
+
+<launch>
+  <arg name="namespace" default="/aut"/>
+  <arg name="cmd_timeout" default="0.5"/>
+
+  <!-- Vehicle pose -->
+  <arg name="x" default="0"/>
+  <arg name="y" default="0"/>
+  <arg name="z" default="0"/>
+  <arg name="roll" default="0.0"/>
+  <arg name="pitch" default="0.0"/>
+  <arg name="yaw" default="0.0"/>
+  
+  <group ns="$(arg namespace)">
+       <node pkg="Autonomous_Systems_Project_Team_37" name="Autonomous_Systems_MS_3_CLR_Alg_2_Lateral_Team_37" type="Autonomous_Systems_MS_3_CLR_Alg_2_Lateral_Team_37.py" >
+          <param name="Wheel_Base" value="0.025"/> <!--Real_Lane_Width = 2.7 Real_wheelbase = 2.652 ackermann_Bot_wheelbase = 0.4239-->
+          <param name="Lateral_Controller" value="Stanley"/> <!-- Pure_Pursuit or Stanley -->
+          <remap from="/Actual_Reading" to="$(arg namespace)/Actual_Reading"/>
+          <remap from="/Control_Action_Steering" to="$(arg namespace)/Control_Action_Steering"/>
+          <remap from="/Longitudinal_Driving_Velocity" to="$(arg namespace)/Longitudinal_Driving_Velocity"/>
+          <remap from="/Lateral_Distance" to="$(arg namespace)/Lateral_Distance"/>
+       </node>
+       
+       <node pkg="Autonomous_Systems_Project_Team_37" name="Autonomous_Systems_MS_3_CLR_Alg_1_Speed_Team_37" type="Autonomous_Systems_MS_3_CLR_Alg_1_Speed_Team_37.py">
+          <param name="Wheel_Base" value="0.025"/> 
+          <remap from="/Actual_Reading" to="$(arg namespace)/Actual_Reading"/>
+          <remap from="/Control_Action_Driving_Velocity" to="$(arg namespace)/Control_Action_Driving_Velocity"/>
+          <remap from="/Longitudinal_Driving_Velocity" to="$(arg namespace)/Longitudinal_Driving_Velocity"/>
+          <remap from="/Lateral_Distance" to="$(arg namespace)/Lateral_Distance"/>
+       </node>
+       
+       <node pkg="Autonomous_Systems_Project_Team_37" name="Autonomous_Systems_MS_3_CLR_Control_37" type="Autonomous_Systems_MS_3_CLR_Control_37.py" output="screen">
+          <remap from="/Control_Module_Output" to="$(arg namespace)/ackermann_cmd"/>
+          <remap from="/Control_Action_Steering" to="$(arg namespace)/Control_Action_Steering"/>
+          <remap from="/Control_Action_Driving_Velocity" to="$(arg namespace)/Control_Action_Driving_Velocity"/>
+       </node>
+       
+       <node pkg="Autonomous_Systems_Project_Team_37" name="Autonomous_Systems_MS_4_Planning_Team_37" type="Autonomous_Systems_MS_4_Planning_Team_37.py" >
+          <remap from="/Longitudinal_Driving_Velocity" to="$(arg namespace)/Longitudinal_Driving_Velocity"/>
+          <remap from="/Lateral_Distance" to="$(arg namespace)/Lateral_Distance"/>
+          <remap from="/Actual_Reading" to="$(arg namespace)/Actual_Reading"/>
+       </node>
+       
+       <node pkg="Autonomous_Systems_Project_Team_37" name="Autonomous_Systems_MS_4_Localization_Team_37" type="Autonomous_Systems_MS_4_Localization_Team_37.py" output="screen">
+          <remap from="/Actual_Reading" to="$(arg namespace)/Actual_Reading"/>
+          <remap from="/theta" to="$(arg namespace)/theta"/>
+
+       </node>
+    </group>
+
+    <node pkg="rqt_graph" name="rqt_graph" type="rqt_graph" />
+</launch>
